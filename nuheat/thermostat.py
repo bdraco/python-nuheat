@@ -239,4 +239,4 @@ class NuHeatThermostat(object):
             "serialnumber": self.serial_number
         }
         data = self._session.request(config.THERMOSTAT_URL, method="POST", data=post_data, params=params)
-        self._update_data(data)
+        _LOGGER.debug("set_data:%s", data)
