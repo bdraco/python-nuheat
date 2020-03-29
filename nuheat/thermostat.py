@@ -1,3 +1,5 @@
+import logging
+
 import nuheat.config as config
 from nuheat.util import (
     celsius_to_nuheat,
@@ -6,6 +8,7 @@ from nuheat.util import (
     nuheat_to_fahrenheit
 )
 
+_LOGGER = logging.getLogger(__name__)
 
 class NuHeatThermostat(object):
     _session = None
@@ -141,8 +144,9 @@ class NuHeatThermostat(object):
         self._update_data(data)
 
     def _update_data(self, data):
-        self._data = data
+        _LOGGER.debug("Updating data from api: %s", data)
 
+        self._data = data
         self.heating = data.get("Heating")
         self.online = data.get("Online")
         self.room = data.get("Room")
