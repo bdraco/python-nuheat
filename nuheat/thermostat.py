@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 import nuheat.config as config
 from nuheat.util import (
@@ -208,7 +209,7 @@ class NuHeatThermostat(object):
         temperature = celsius_to_nuheat(celsius)
         self.set_target_temperature(temperature, mode)
 
-    def set_target_temperature(self, temperature, mode=config.SCHEDULE_HOLD, hold_set_point_datetime=None):
+    def set_target_temperature(self, temperature, mode=config.SCHEDULE_HOLD, hold_set_point_timestamp=None):
         """
         Updates the target temperature on the NuHeat API
 
@@ -230,8 +231,8 @@ class NuHeatThermostat(object):
             "SetPointTemp": temperature,
             "ScheduleMode": mode
         }
-        if hold_set_point_datetime:
-            request["HoldSetPointDateTime"] = hold_set_point_datetime
+        if hold_set_point_timestamp:
+            request["HoldSetPointDateTime"] = datetime.fromtimestamp(hold_set_point_timestamp).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
         self.set_data(request)
 

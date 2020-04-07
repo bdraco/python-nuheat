@@ -288,11 +288,11 @@ class TestThermostat(NuTestCase):
         })
 
         # Temporary hold with expire time
-        thermostat.set_target_temperature(2222, mode=config.SCHEDULE_TEMPORARY_HOLD, hold_set_point_datetime="Tue, 07 Apr 2020 06:17:04 GMT")
+        thermostat.set_target_temperature(2222, mode=config.SCHEDULE_TEMPORARY_HOLD, hold_set_point_timestamp=1586233492)
         set_data.assert_called_with({
             "SetPointTemp": 2222,
             "ScheduleMode": config.SCHEDULE_TEMPORARY_HOLD,
-            "HoldSetPointDateTime": "Tue, 07 Apr 2020 06:17:04 GMT"
+            "HoldSetPointDateTime": "Tue, 07 Apr 2020 04:24:52 GMT"
         })
 
         # Below minimum
