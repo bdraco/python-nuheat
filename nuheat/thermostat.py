@@ -208,7 +208,7 @@ class NuHeatThermostat(object):
         temperature = celsius_to_nuheat(celsius)
         self.set_target_temperature(temperature, mode)
 
-    def set_target_temperature(self, temperature, mode=config.SCHEDULE_HOLD):
+    def set_target_temperature(self, temperature, mode=config.SCHEDULE_HOLD, hold_set_point_datetime=None):
         """
         Updates the target temperature on the NuHeat API
 
@@ -226,10 +226,14 @@ class NuHeatThermostat(object):
         if mode not in modes:
             raise Exception("Invalid mode. Please use one of: {}".format(modes))
 
-        self.set_data({
+        request = {
             "SetPointTemp": temperature,
             "ScheduleMode": mode
-        })
+        }
+        if hold_set_point_datetime:
+            request["HoldSetPointDateTime"] = hold_set_point_datetime
+
+        self.set_data(request)
 
     def set_data(self, post_data):
         """
